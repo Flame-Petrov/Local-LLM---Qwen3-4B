@@ -1,0 +1,459 @@
+{
+  "_about": "Example price-label dictionary with multilingual parsing rules. Patterns are case-insensitive regular expressions. Contains application rules, not audit results or saved pages.",
+  "roles": {
+    "main_price": {
+      "meaning": "price of the main product on this page",
+      "drop": false,
+      "needs_product_match": false
+    },
+    "current_price": {
+      "meaning": "current price",
+      "drop": false,
+      "needs_product_match": true
+    },
+    "listing_item": {
+      "meaning": "price of one product in a list - check its name",
+      "drop": false,
+      "needs_product_match": true
+    },
+    "related_product": {
+      "meaning": "price of a DIFFERENT, related product (sidebar / 'you may also like')",
+      "drop": false,
+      "needs_product_match": true
+    },
+    "old_price": {
+      "meaning": "OLD price before the discount - NOT what you pay now",
+      "drop": false,
+      "needs_product_match": true
+    },
+    "last_known_price": {
+      "meaning": "LAST KNOWN price - the product is not currently for sale, this price may be outdated",
+      "drop": false,
+      "needs_product_match": false
+    },
+    "from_price": {
+      "meaning": "starting price ('from') - the cheapest model/variant in a range, not one exact product",
+      "drop": false,
+      "needs_product_match": true
+    },
+    "online_price": {
+      "meaning": "price when ordering online (store price may differ)",
+      "drop": false,
+      "needs_product_match": true
+    },
+    "per_unit": {
+      "meaning": "price per piece / per unit (quantity discounts may apply)",
+      "drop": false,
+      "needs_product_match": false
+    },
+    "quantity_tier": {
+      "meaning": "price for a quantity tier (e.g. 1+, 10+ pieces)",
+      "drop": false,
+      "needs_product_match": false
+    },
+    "installment": {
+      "meaning": "MONTHLY INSTALLMENT / leasing payment - NOT the full price",
+      "drop": false,
+      "needs_product_match": false
+    },
+    "addon": {
+      "meaning": "ADD-ON cost (extra warranty, insurance, service) - NOT the product price",
+      "drop": false,
+      "needs_product_match": false
+    },
+    "shipping": {
+      "meaning": "SHIPPING / delivery cost - NOT the product price",
+      "drop": false,
+      "needs_product_match": false
+    },
+    "free_shipping": {
+      "meaning": "free-shipping threshold or amount still needed for free shipping - NOT the product price",
+      "drop": false,
+      "needs_product_match": false
+    },
+    "approx_converted": {
+      "meaning": "APPROXIMATE currency conversion made by the site - not a real shop price",
+      "drop": false,
+      "needs_product_match": true
+    },
+    "cart_total": {
+      "meaning": "shopping cart total",
+      "drop": true,
+      "needs_product_match": false
+    },
+    "price_filter": {
+      "meaning": "price range filter button",
+      "drop": true,
+      "needs_product_match": false
+    }
+  },
+  "modifier_roles": [
+    "per_unit",
+    "online_price",
+    "quantity_tier"
+  ],
+  "_modifier_roles": "label roles that only ADD a note to an element's role (main price + 'per piece') instead of replacing it",
+  "generic_roles": [
+    "main_price",
+    "listing_item",
+    "current_price",
+    "related_product"
+  ],
+  "_generic_roles": "element roles a more specific label role may override (e.g. a main-area price labelled 'last known price')",
+  "flags": {
+    "_about": "Extra facts about a price, found in its label or element names. Shown next to the price.",
+    "incl_vat": {
+      "meaning": "incl. VAT",
+      "patterns": [
+        "с\\s*(вкл\\.?\\s*)?ддс",
+        "вкл\\.?\\s*ддс",
+        "включ\\w*\\s+ддс",
+        "incl\\.?\\s*vat",
+        "including\\s+vat",
+        "vat\\s+incl",
+        "ндс\\s+включ\\w*",
+        "с\\s+ндс",
+        "inkl\\.?\\s*mwst"
+      ]
+    },
+    "excl_vat": {
+      "meaning": "EXCLUDING VAT (tax will be added)",
+      "patterns": [
+        "без\\s*ддс",
+        "excl\\.?\\s*vat",
+        "ex\\.?\\s*vat",
+        "excluding\\s+vat",
+        "without\\s+vat",
+        "net\\s+price",
+        "без\\s+ндс",
+        "exkl\\.?\\s*mwst"
+      ]
+    },
+    "out_of_stock": {
+      "meaning": "OUT OF STOCK",
+      "patterns": [
+        "няма\\s+(в\\s+)?наличност",
+        "изчерпан",
+        "информирай\\s+ме\\s+за\\s+наличност",
+        "уведоми\\s+ме",
+        "out\\s+of\\s+stock",
+        "sold\\s+out",
+        "outofstock",
+        "currently\\s+unavailable",
+        "не\\s+е\\s+наличен",
+        "нет\\s+в\\s+наличии"
+      ]
+    },
+    "in_stock": {
+      "meaning": "in stock",
+      "patterns": [
+        "(?<!не\\s)(?<!няма\\s)наличен(?!\\s+по\\s+заявка)",
+        "(?<!няма\\s)в\\s+наличност(?!\\w)",
+        "наличен\\s+в\\s+склад",
+        "(?<!out\\sof\\s)(?<!not\\s)in\\s+stock",
+        "(?<!out)instock",
+        "(?<!нет\\s)в\\s+наличии"
+      ]
+    },
+    "on_request": {
+      "meaning": "available on request / must be ordered (longer delivery)",
+      "patterns": [
+        "по\\s+заявка",
+        "по\\s+поръчка",
+        "на\\s+запитване",
+        "backorder",
+        "on\\s+request"
+      ]
+    },
+    "preorder": {
+      "meaning": "PRE-ORDER (not released yet)",
+      "patterns": [
+        "предварителна\\s+поръчка",
+        "очаквайте",
+        "очаква\\s+се",
+        "pre-?order",
+        "coming\\s+soon"
+      ]
+    },
+    "discount": {
+      "meaning": "discounted / promotion",
+      "patterns": [
+        "промо",
+        "намален\\w*",
+        "отстъпка",
+        "-\\s?\\d+\\s?%",
+        "\\bsale\\b",
+        "discount",
+        "специална\\s+цена",
+        "special\\s+price"
+      ]
+    },
+    "used": {
+      "meaning": "USED / refurbished item",
+      "patterns": [
+        "употребяван\\w*",
+        "втора\\s+ръка",
+        "реновиран\\w*",
+        "\\bused\\b",
+        "refurbished",
+        "renewed",
+        "б/у"
+      ]
+    },
+    "pack": {
+      "meaning": "price is for a PACK of several items",
+      "patterns": [
+        "\\d+\\s*(бр\\.?|броя)\\s+в\\s+опаковка",
+        "комплект\\s+от\\s+\\d+",
+        "\\d+[-\\s]?pack\\b",
+        "pack\\s+of\\s+\\d+",
+        "\\d+\\s*x\\s*бр"
+      ]
+    }
+  },
+  "flag_conflicts": {
+    "_about": "If the first flag is found, the listed flags are removed (e.g. 'Няма в наличност' must not also count as in stock).",
+    "out_of_stock": [
+      "in_stock"
+    ],
+    "preorder": [
+      "in_stock"
+    ],
+    "on_request": [
+      "in_stock"
+    ]
+  },
+  "element_names": [
+    {
+      "_about": "Matched against the HTML class / id / itemprop names of the price element and its parents. First match wins, so specific rules come first."
+    },
+    {
+      "pattern": "product-price-and-shipping|product-miniature",
+      "role": "listing_item",
+      "_note": "PrestaShop product cards - the word 'shipping' here is NOT a shipping cost"
+    },
+    {
+      "pattern": "cart|basket|кошница|minicart|mini-cart|shopping-cart|cart-total|header-cart",
+      "role": "cart_total"
+    },
+    {
+      "pattern": "price-seo|price-filter|price-range|price-slider|filter|facet|range-chip",
+      "role": "price_filter"
+    },
+    {
+      "pattern": "old-?price|price-?old|was-?price|price-?was|strikethrough|strike|crossed|price--old|regular-price|list-?price|price-before|before-price|oldprice",
+      "role": "old_price"
+    },
+    {
+      "pattern": "leasing|installment|instalment|credit|vnoska|вноска|tbi|jetcredit|monthly|per-month|financ",
+      "role": "installment"
+    },
+    {
+      "pattern": "insurance|ins-opt|cert-opt|pluscert|warranty|garancia|extended|service-opt|addon|add-on",
+      "role": "addon"
+    },
+    {
+      "pattern": "delivery|shipping|ship-label|pdp__ship|dostavka|courier",
+      "role": "shipping"
+    },
+    {
+      "pattern": "trust-item|free-ship",
+      "role": "free_shipping"
+    },
+    {
+      "pattern": "product_list_widget|related|upsell|up-sell|cross-sell|crosssell|recently|similar|accessor|you-may|recommend|carousel|swiper",
+      "role": "related_product"
+    },
+    {
+      "pattern": "menu-thumbnail-price|from-price|price-from|starting",
+      "role": "from_price"
+    },
+    {
+      "pattern": "price-table|tier-price|qty-price|quantity-price|volume-price",
+      "role": "quantity_tier"
+    },
+    {
+      "pattern": "product-page-price|pdp__price|pdp-bar__price|product-pdp__prices|cta-price|product-info-main|product-info-price|summary|single-product|product-detail|productdetail|current-price-value|buy-box|buybox|main-price",
+      "role": "main_price"
+    },
+    {
+      "pattern": "productlisting|product-box|product-item|product-card|product-tile|product-list|listing|catalog|grid-item|item-price|caption|product-miniature|product-thumb",
+      "role": "listing_item"
+    }
+  ],
+  "label_terms": [
+    {
+      "_about": "Matched against the label text next to the price (# = the price). First match wins. Applied when the element names gave no role, or to override a generic one."
+    },
+    {
+      "pattern": "последно\\s+известна\\s+цена|last\\s+known\\s+price",
+      "role": "last_known_price"
+    },
+    {
+      "pattern": "стара\\s+цена|предишна\\s+цена|редовна\\s+цена|original\\s+price\\s+was|regular\\s+price|was:|old\\s+price|цена\\s+преди",
+      "role": "old_price"
+    },
+    {
+      "pattern": "на\\s+месец|/\\s?мес|месечн\\w*|вноск\\w*|лизинг|(?<!купи\\s)(?<!купи\\s\\s)на\\s+изплащане|per\\s+month|/\\s?mo\\b|monthly|installment",
+      "role": "installment",
+      "_note": "'Купи на изплащане' is only the 'buy on installments' button next to the full price"
+    },
+    {
+      "pattern": "\\(\\+\\s*#\\)|\\+\\s*#.*(годин|year|гаранц|warrant|застрах|insur)|(годин|year)\\w*\\s*\\(\\+",
+      "role": "addon"
+    },
+    {
+      "pattern": "безплатна\\s+доставка|free\\s+shipping|free\\s+delivery|още\\s+#\\s+до|над\\s+#.*доставк|доставк\\w*.*над\\s+#",
+      "role": "free_shipping"
+    },
+    {
+      "pattern": "доставка|еконт|спиди|speedy|econt|куриер|shipping|delivery",
+      "role": "shipping"
+    },
+    {
+      "pattern": "^(?!.*(добави|add\\s+to|купи|buy)).*(количка|продукт\\(и\\)|кошница|\\bcart\\b|basket)",
+      "role": "cart_total",
+      "_note": "'Добави в количката' / 'Add to cart' is a buy button, not a cart total"
+    },
+    {
+      "pattern": "^\\s*(до|над|under|over)\\s+#|#\\s*-\\s*#",
+      "role": "price_filter"
+    },
+    {
+      "pattern": "цени\\s+от|^\\s*от\\s*#|from\\s+#|starting\\s+(at|from)|price\\s+from",
+      "role": "from_price"
+    },
+    {
+      "pattern": "онлайн\\s+цена|online\\s+price",
+      "role": "online_price"
+    },
+    {
+      "pattern": "текущата\\s+цена|current\\s+price|цена\\s+сега|now:?\\s*#",
+      "role": "current_price"
+    },
+    {
+      "pattern": "(?<!\\w)бр\\.?(?!\\w)|/\\s?бр|per\\s+(piece|unit|item)|/\\s?pcs?\\b|\\bea\\b",
+      "role": "per_unit"
+    },
+    {
+      "pattern": "^\\s*\\d+\\s*\\+\\s*#|\\b\\d+\\+\\s*$",
+      "role": "quantity_tier"
+    },
+    {
+      "pattern": "≈|~\\s*#|approx",
+      "role": "approx_converted"
+    }
+  ],
+  "old_price_tags": [
+    "del",
+    "s",
+    "strike"
+  ],
+  "words": {
+    "_about": "Glossary: words the model reported it did not understand (audit_report.json), plus close relatives. Shown to the model when they appear in a page's price lines. Keys are matched as whole words, case-insensitive.",
+    "ДДС": "VAT (Bulgarian 'данък добавена стойност', 20% in Bulgaria)",
+    "НДС": "VAT (Russian)",
+    "вкл.": "including",
+    "с вкл. ДДС": "including VAT",
+    "без ДДС": "excluding VAT",
+    "бр.": "piece (pcs) - 'бр.' = 'брой'",
+    "броя": "pieces",
+    "лв": "Bulgarian lev (BGN). Bulgaria uses the euro since 1 Jan 2026; shops show both at the fixed rate 1 EUR = 1.95583 лв - these are the SAME price in two currencies, not two prices",
+    "лв.": "Bulgarian lev (BGN), see 'лв'",
+    "цена": "price",
+    "цени от": "prices from (lowest price in a range)",
+    "текущата цена": "the current price",
+    "стара цена": "old price (before discount)",
+    "последно известна цена": "last known price (product not currently sold)",
+    "онлайн цена": "online price",
+    "промо": "promotion",
+    "намаление": "discount / price reduction",
+    "отстъпка": "discount",
+    "наличност": "availability / stock",
+    "наличен": "in stock",
+    "няма": "there is no / not",
+    "няма в наличност": "out of stock",
+    "изчерпан": "sold out",
+    "информирай ме за наличност": "notify me when available (= out of stock)",
+    "по заявка": "on request (must be ordered)",
+    "очаквайте": "coming soon",
+    "склад": "warehouse",
+    "магазин": "shop / store",
+    "онлайн": "online",
+    "купи": "buy",
+    "поръчай": "order",
+    "добави": "add",
+    "добави в количката": "add to cart",
+    "количка": "shopping cart",
+    "количката": "the shopping cart",
+    "кошница": "shopping basket",
+    "продукт(и)": "product(s)",
+    "запитване": "inquiry",
+    "вече сте изпратили запитване за този продукт": "you have already sent an inquiry about this product",
+    "доставка": "delivery / shipping",
+    "безплатна доставка": "free shipping",
+    "еконт": "Econt - Bulgarian courier company",
+    "спиди": "Speedy - Bulgarian courier company",
+    "офис": "courier office (pick-up point)",
+    "адрес": "home address (delivery to door)",
+    "до": "to / up to",
+    "над": "over / above",
+    "от": "from",
+    "още": "more / still needed (e.g. 'още 34,10 € до безплатна доставка' = 34.10 € more for free shipping)",
+    "по": "by / via",
+    "за": "for",
+    "с": "with",
+    "в": "in",
+    "година": "year",
+    "години": "years",
+    "гаранция": "warranty",
+    "застраховка": "insurance",
+    "вноска": "installment payment",
+    "лизинг": "leasing / buying on installments",
+    "на месец": "per month",
+    "виж": "see / view",
+    "платка": "circuit board (dev board)",
+    "сензор": "sensor",
+    "кабел": "cable",
+    "кутия": "box / case",
+    "корпус": "case / housing",
+    "комплект": "kit / set",
+    "дисплей": "display",
+    "захранващ": "power (supply)",
+    "регулатор": "regulator",
+    "понижаващ": "step-down (voltage)",
+    "драйвер": "driver",
+    "шаси": "chassis",
+    "вътрешен": "internal",
+    "диск": "disk / drive",
+    "м.2": "M.2 (SSD form factor)",
+    "сша": "USA",
+    "турция": "Turkey",
+    "eur-price": "price in euro",
+    "full-price": "full price (on ardes.bg: the main product price box)",
+    "common-price": "the shop's standard price box",
+    "cta-price": "price in the 'buy' box (main product price)",
+    "pricetext": "price text",
+    "productprices": "product price block",
+    "product-pdp__prices": "price block of the product detail page (PDP = the main product)",
+    "pdp": "product detail page (the main product)",
+    "woocommerce-price-amount": "WooCommerce shop price amount (role depends on where it is)",
+    "ng-star-inserted": "Angular framework artifact - no meaning",
+    "wpb_wrapper": "WPBakery page-builder layout - no meaning",
+    "wpb_text_column": "WPBakery page-builder layout - no meaning",
+    "wpb_content_element": "WPBakery page-builder layout - no meaning",
+    "≈": "approximately (converted by the site)",
+    "InStock": "in stock",
+    "OutOfStock": "out of stock",
+    "PreOrder": "pre-order",
+    "BackOrder": "on back order (delivery later)",
+    "LimitedAvailability": "limited stock",
+    "Discontinued": "discontinued",
+    "SoldOut": "sold out",
+    "InStoreOnly": "available in the physical store only",
+    "OnlineOnly": "available online only",
+    "NewCondition": "new",
+    "UsedCondition": "used",
+    "RefurbishedCondition": "refurbished"
+  }
+}
